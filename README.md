@@ -74,6 +74,8 @@ Submit presentation with five slides:
 
 3. Implementation:
   - How you built the product
+  - What was in Version 1 and Version 2
+  - What TA feedback points you addressed
 
 4. Demo:
   - Pre-recorded demo with live commentaries (no longer than 2 minutes)
