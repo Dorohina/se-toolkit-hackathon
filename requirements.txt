@@ -1,0 +1,17 @@
+# Core dependencies
+python-telegram-bot==21.3
+python-telegram-bot[job-queue]==21.3
+asyncpg==0.29.0
+SQLAlchemy==2.0.30
+alembic==1.13.1
+
+# Environment and config
+python-dotenv==1.0.1
+pydantic==2.7.1
+pydantic-settings==2.2.1
+
+# HTTP client
+aiohttp==3.9.5
+
+# Utilities
+pytz==2024.1

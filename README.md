@@ -1,170 +1,369 @@
-# Lab 9 - Quiz and Hackathon
+# Local Event Organizer 🎯
 
-The lab opens with a quiz and then kicks off the hackathon.
+Telegram bot for finding local events and organizing meetups with friends.
 
-To get the full point for the lab, you need to:
+![Bot Demo](demo_screenshot.png)
 
-- Pass Tasks 1, 2, 3 during the lab AND
-- Finish Tasks 4 and 5 by the usual deadline of Thursday 23:59.
+---
 
-Each student builds their own project:
+## 📋 Product Context
 
-- Go from an idea to a deployed product.
-- Use agents and LLMs throughout.
+### End Users
+- Residents or visitors in cities looking for local events or meetups
+- People who want to quickly organize meetups with friends
+- Users who prefer Telegram as their primary communication platform
 
-----
+### Problem Solved
+It's difficult for people to find interesting local events or quickly organize meetups with friends. Existing solutions are often scattered across multiple platforms and require manual searching.
 
-## Task 1 (graded by TA after the lab)
+### Our Solution
+A Telegram bot that uses an LLM to parse user queries and suggest relevant events from a curated PostgreSQL database. The bot also helps users organize simple meetups by suggesting times, locations, and creating reminders.
 
-Pen and paper quiz:
+---
 
-- 20 mins;
-- closed book, no devices;
-- you get 3 random questions from the question bank;
-- answer at least 2.
+## ✨ Features
 
-## Task 2 (approved by TA during the lab)
+### Implemented (Version 1)
+- ✅ Search events by category (concert, theater, sport, IT, business)
+- ✅ Search events by date (YYYY-MM-DD format)
+- ✅ Search events by location (city or venue name)
+- ✅ View upcoming events
+- ✅ Save favorite events for later
+- ✅ List saved events
+- ✅ Remove events from saved list
+- ✅ Interactive inline keyboard navigation
+- ✅ PostgreSQL database with event storage
+- ✅ Docker support for easy deployment
 
-Ideate and plan your project.
+### Implemented (Version 2)
+- ✅ Meetup organization (create and join meetups)
+- ✅ Meetup participant management
+- ✅ Polished UI with better event formatting
+- ✅ Docker Compose for all services
+- ✅ Comprehensive documentation
 
-### Project idea
+### Not Yet Implemented (Future Enhancements)
+- ⏳ LLM-powered natural language query parsing
+- ⏳ Push notifications/reminders for upcoming events
+- ⏳ Event recommendations based on user preferences
+- ⏳ Integration with external event APIs
+- ⏳ Web dashboard for event organizers
+- ⏳ Multi-language support
+- ⏳ Location-based event suggestions using geolocation
 
-The project idea must be:
+---
 
-- something simple to build;
-- clearly useful;
-- easy to explain.
+## 🚀 Usage
 
-Define and show to your TA:
+### Prerequisites
+- Python 3.12+
+- PostgreSQL 16+
+- A Telegram Bot Token (get from [@BotFather](https://t.me/BotFather))
 
-- End-user of the product
-- What problem your product solves for the end-user?
-- The product idea in one short sentence.
-- What is the product's core feature?
+### Quick Start
 
-### Implementation plan
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd se-toolkit-hackathon
+   ```
 
-When the idea is approved, produce a plan for two product versions.
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` and add your `BOT_TOKEN` from BotFather.
 
-Version 1 does one core thing well:
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- Pick the one feature most valuable to the end-user and relatively easy to implement;
-- It is a functioning product, not a prototype;
-- Must be shown to the TA upon completion for feedback.
+4. **Start PostgreSQL** (if not using Docker)
+   ```bash
+   # Create database
+   createdb -U postgres events_db
+   ```
 
-Version 2 builds upon Version 1:
+5. **Initialize database and seed data**
+   ```bash
+   python seed.py
+   ```
 
-- Improves the initial feature or adds another one on top;
-- Address TA feedback from the lab;
-- Deploy and make it available for use.
+6. **Run the bot**
+   ```bash
+   python main.py
+   ```
 
-The product must have the following components, each fulfilling a useful function:
+### Using Docker (Recommended)
 
-- backend;
-- database;
-- end-user-facing client: web app, mobile app, or LLM-powered agent, e.g. `nanobot`.
+1. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your BOT_TOKEN
+   ```
 
-Note:
+2. **Start all services**
+   ```bash
+   docker-compose up -d
+   ```
 
-- You can use the setup from Lab 8 or start from scratch.
-- `Telegram` bots are blocked on university VMs.
+3. **Seed the database**
+   ```bash
+   docker-compose exec bot python seed.py
+   ```
 
-## Task 3 (approved by TA during the lab)
+4. **View logs**
+   ```bash
+   docker-compose logs -f bot
+   ```
 
-Implement Version 1 outlined in the plan:
+### Bot Commands
 
-- Build one core feature;
-- Follow best practices and git workflow;
-- Test it yourself and fix bugs;
-- Have the TA try it as a user;
-- Take note of the TA feedback;
-- Get TA's approval for the task to be marked as DONE.
+Once the bot is running, open Telegram and start a chat with your bot:
 
-## Task 4
+- `/start` - Initialize the bot and see the main menu
+- `/events` - Show upcoming events
+- `/search` - Search events by category, date, or location
+- `/saved` - View your saved events
+- `/meetup` - Create or find meetups
+- `/help` - Show help message
 
-Implement and deploy Version 2 outlined in the plan:
+### Search Examples
 
-- Build and polish functionality;
-- Take TA feedback into account;
-- Push all code to the GitHub repo (see the detailed instructions below);
-- Follow best practices and git workflow;
-- Document your solution;
-- Dockerize all services;
-- Deploy it to be accessible to use.
+```
+category:concert        # Search by category
+date:2024-05-15         # Search by date
+location:Innopolis      # Search by location
+```
 
-Version 2 can be completed during the lab or after it, before the usual deadline.
+---
 
-## Task 5 (demo and PDF submitted through Moodle)
+## 🏗️ Architecture
 
-Submit a presentation with five slides:
+### Tech Stack
+- **Backend**: Python 3.12, python-telegram-bot (async)
+- **Database**: PostgreSQL 16 with SQLAlchemy ORM
+- **Deployment**: Docker & Docker Compose
+- **Architecture**: Layered (Bot → Repositories → Database)
 
-1. Title:
+### Project Structure
 
-   - Product title
-   - Your name
-   - Your university email
-   - Your group
+```
+se-toolkit-hackathon/
+├── bot.py                  # Telegram bot handlers
+├── config.py               # Application settings
+├── database.py             # Database connection
+├── models.py               # SQLAlchemy models
+├── repositories.py         # Database CRUD operations
+├── main.py                 # Entry point
+├── seed.py                 # Database seeding script
+├── requirements.txt        # Python dependencies
+├── Dockerfile              # Backend container
+├── docker-compose.yml      # Multi-service orchestration
+└── .env.example            # Environment variables template
+```
 
-2. Context:
+### Database Schema
 
-   - End-user of the product
-   - What problem your product solves
-   - The product idea in one short sentence
+- **events** - Local events with title, description, category, location, time
+- **users** - Telegram bot users
+- **saved_events** - User's favorite events (many-to-many)
+- **meetups** - User-organized meetups
+- **meetup_participants** - Meetup participants (many-to-many)
 
-3. Implementation:
+---
 
-   - How you built the product
-   - What went into Version 1 and Version 2
-   - What TA feedback points you addressed
+## 🛠️ Development
 
-4. Demo:
+### Running Tests
+```bash
+python -m pytest tests/ -v
+```
 
-   - Pre-recorded video demonstration of Version 2 with voice-over (no longer than 2 minutes).
-   - _Note:_ **This is the most important part of the presentation**.
+### Code Style
+```bash
+# Install linters
+pip install black flake8
 
-5. Links:
+# Format code
+black .
 
-   - Link and QR code for each of these:
-     - The GitHub repo with the product code
-     - Deployed product (latest version)
+# Check style
+flake8 .
+```
 
-----
+### Database Migrations
+```bash
+# Initialize alembic (if needed)
+alembic init alembic
 
-## Publishing the product code on GitHub
+# Create migration
+alembic revision --autogenerate -m "description"
 
-- Publish the product code in a repository on `GitHub`.
+# Apply migrations
+alembic upgrade head
+```
 
-  The repository must be called `se-toolkit-hackathon`.
+---
 
-- Add the MIT license file to make your product open-source.
+## 🚢 Deployment
 
-- Add `README.md` in the product repository.
+### OS Requirements
+- Ubuntu 24.04 (or any modern Linux distribution)
+- Windows/macOS for development
 
-  `README.md` structure:
+### What Should Be Installed
 
-  - Product name (as title)
+For manual deployment:
+- Python 3.12+
+- PostgreSQL 16+
+- pip and virtualenv
 
-  - One-line description
+For Docker deployment:
+- Docker 24+
+- Docker Compose 2.20+
 
-  - Demo:
-    - A couple of relevant screenshots of the product
+### Step-by-Step Deployment (Docker)
 
-  - Product context:
+1. **Install Docker and Docker Compose**
+   ```bash
+   # Ubuntu
+   sudo apt update
+   sudo apt install docker.io docker-compose-plugin
+   sudo systemctl enable docker
+   ```
 
-    - End users
-    - Problem that your product solves for end users
-    - Your solution
+2. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd se-toolkit-hackathon
+   ```
 
-  - Features:
+3. **Configure environment**
+   ```bash
+   cp .env.example .env
+   nano .env  # Add your BOT_TOKEN and other settings
+   ```
 
-    - Implemented and not yet implemented features
+4. **Get a Telegram Bot Token**
+   - Open Telegram and search for `@BotFather`
+   - Send `/newbot` and follow instructions
+   - Copy the token to `.env`
 
-  - Usage:
+5. **Start services**
+   ```bash
+   docker-compose up -d
+   ```
 
-    - Explain how to use your product
+6. **Verify services are running**
+   ```bash
+   docker-compose ps
+   docker-compose logs -f bot
+   ```
 
-  - Deployment:
+7. **Seed the database**
+   ```bash
+   docker-compose exec bot python seed.py
+   ```
 
-    - Which OS the VM should run on (you may assume `Ubuntu 24.04` like on your university VMs)
-    - What should be installed on the VM
-    - Step-by-step deployment instructions
+8. **Test the bot**
+   - Open Telegram
+   - Find your bot by username
+   - Send `/start`
+
+### Step-by-Step Deployment (Manual)
+
+1. **Install PostgreSQL**
+   ```bash
+   sudo apt install postgresql postgresql-contrib
+   sudo systemctl enable postgresql
+   ```
+
+2. **Create database**
+   ```bash
+   sudo -u postgres createdb events_db
+   sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
+   ```
+
+3. **Set up Python environment**
+   ```bash
+   python3.12 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+4. **Configure and seed**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your settings
+   python seed.py
+   ```
+
+5. **Run the bot**
+   ```bash
+   python main.py
+   ```
+
+### Accessing PgAdmin (Optional)
+
+If you started with the tools profile:
+```bash
+docker-compose --profile tools up -d
+```
+
+Open browser: http://localhost:5050
+- Email: admin@admin.com
+- Password: admin
+
+---
+
+## 📝 Development Plan
+
+### Version 1 (Core Feature)
+- [x] Basic Telegram bot with command handlers
+- [x] PostgreSQL database integration
+- [x] Search events by category, date, location
+- [x] Save and list favorite events
+- [x] Interactive inline keyboards
+- [x] Docker support
+
+### Version 2 (Enhanced Features)
+- [x] Meetup creation and management
+- [x] Meetup participant tracking
+- [x] Improved UI and event formatting
+- [x] Docker Compose for all services
+- [x] Comprehensive documentation
+- [x] Deployment guide
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Team
+
+- **Developer**: Varvara Dorokhina
+- **University**: Innopolis University
+- **Email**: v.dorokhina@innopolis.university
+- **Group**: B25-DSAI-04
+
+---
+
+## 🔗 Links
+
+- **GitHub Repository:** https://github.com/Dorohina/se-toolkit-hackathon
+- **Try the Bot:** https://t.me/testeventorganizer_bot
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [python-telegram-bot Documentation](https://docs.python-telegram-bot.org/)
+
+### QR Codes
+
+**GitHub Repository:**
+![GitHub QR](github_qrcode.png)
+
+**Telegram Bot:**
+![Bot QR](bot_qrcode.png)
